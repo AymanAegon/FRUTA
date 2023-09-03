@@ -1,21 +1,16 @@
-#!/usr/bin/python3
+
 """Defines the entry point of the command interpreter."""
 import cmd
 import re
-from models.base_model import BaseModel
-from models.base_model import BaseModel
-from models.user import Client
-from models.city import Order
-from models.place import Product
-from models.state import Box
-
+from models import storage
+from models.base_model import BaseModeldestroy 
 
 
 class HBNBCommand(cmd.Cmd):
     """ Command interpreter class."""
 
-    prompt = "(hbnb) "
-    cls = {"BaseModel", "User", "Place", "City", "Amenity", "Review", "State"}
+    prompt = ">> "
+    cls = {"BaseModel"}
 
     def do_quit(self, arg):
         """Command quit to exit the program."""
