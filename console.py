@@ -4,13 +4,17 @@ import cmd
 import re
 from models import storage
 from models.base_model import BaseModel
+from models.product import Product
+from models.client import Client
+from models.order import Order
+from models.box import Box
 
 
 class HBNBCommand(cmd.Cmd):
     """ Command interpreter class."""
 
     prompt = ">> "
-    cls = {"BaseModel"}
+    cls = {"BaseModel", "Product", "Client", "Order", "Box"}
 
     def do_quit(self, arg):
         """Command quit to exit the program."""
