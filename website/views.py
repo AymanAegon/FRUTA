@@ -13,3 +13,7 @@ def orders():
 @views.route('/clients')
 def clients():
     return render_template("clients.html", clients=True)
+
+@views.route('/blank')
+def blank():
+    return render_template("blank.html", blank=True)
