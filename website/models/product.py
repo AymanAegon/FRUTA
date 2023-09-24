@@ -2,15 +2,24 @@
 """
 a class Product that inherits from BaseModel:
 """
-import models
-from models.base_model import BaseModel
+from sqlalchemy import Column, Float, String
+from sqlalchemy.orm import relationship
+from os import getenv
+from models.base_model import BaseModel, Base
+
+storage_type = getenv("FRUTA_TYPE_STORAGE")
 
 
 class Product(BaseModel):
     """
     Product class
     """
-
-    name = ''
-    unit_price = 0
-    stock = 0
+    __tablename__ = "products"
+    if storage_type == 'db':
+        name = Column(String(128), nullable=False)
+        unit_price = Column(Float, nullable=False)
+        stock = Column(Float, nullable=False, default=0)
+    else:
+        name = ''
+        unit_price = 0
+        stock = 0
