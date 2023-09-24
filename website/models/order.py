@@ -19,7 +19,7 @@ storage_type = getenv("FRUTA_TYPE_STORAGE")
 
 
 
-class Order(BaseModel):
+class Order(BaseModel, Base):
     """
     Order class
     """
