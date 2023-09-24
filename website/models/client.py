@@ -20,6 +20,7 @@ class Client(BaseModel, Base):
         name = Column(String(128), nullable=False)
         tel_number = Column(String(60), nullable=True)
         box_left = Column(Integer, nullable=False, default=0)
+        orders = relationship('Order', cascade="all,delete", backref="client")
     else:
         name = ''
         tel_number = ''
