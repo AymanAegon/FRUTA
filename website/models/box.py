@@ -2,13 +2,20 @@
 """
 a class Box that inherits from BaseModel:
 """
-import models
-from models.base_model import BaseModel
+from sqlalchemy import Column, Integer
+from sqlalchemy.orm import relationship
+from os import getenv
+from models.base_model import BaseModel, Base
+
+storage_type = getenv("FRUTA_TYPE_STORAGE")
 
 
-class Box(BaseModel):
+class Box(BaseModel, Base):
     """
     Box class
     """
-
-    number = 0
+    __tablename__ = "boxs"
+    if storage_type == 'db':
+        number = Column(Integer, nullable=False, default=0)
+    else:
+        number = 0
