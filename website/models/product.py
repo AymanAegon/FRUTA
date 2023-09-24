@@ -19,6 +19,7 @@ class Product(BaseModel):
         name = Column(String(128), nullable=False)
         unit_price = Column(Float, nullable=False)
         stock = Column(Float, nullable=False, default=0)
+        orders = relationship('Order', cascade="all,delete", backref="product")
     else:
         name = ''
         unit_price = 0
