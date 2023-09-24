@@ -14,7 +14,7 @@ class Box(BaseModel, Base):
     """
     Box class
     """
-    __tablename__ = "boxs"
+    __tablename__ = "boxes"
     if storage_type == 'db':
         number = Column(Integer, nullable=True, default=0)
     else:
