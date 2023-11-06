@@ -10,16 +10,17 @@ from models.base_model import BaseModel, Base
 storage_type = getenv("FRUTA_TYPE_STORAGE")
 
 
-class Box(BaseModel, Base):
+class Box_in(BaseModel, Base):
     """
     Box class
     """
-    __tablename__ = "boxes"
+    __tablename__ = "boxes_in"
     if storage_type == 'db':
-        box_left = Column(Integer, nullable=True, default=0)
-        box_by_order= Column(Integer, nullable=True, default=0)
-        box_by_client = Column(Integer, nullable=True, default=0)
+        return_id = Column(Integer, default=1,autoincrement=True)
+        quantity = Column(Integer, default=1) 
+        client_id = Column(Integer, ForeignKey('clients.id'))
+
     else:
-        box_left = 0
-        box_by_order = 0
-        box_by_client = 0
+        quantity = 0
+        client_id = 0
+        return_id = 0

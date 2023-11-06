@@ -30,11 +30,17 @@ class Order(BaseModel, Base):
         product_id =Column(String(60), ForeignKey("products.id"), nullable=False)
         quantity = Column(Float,nullable=False)
         total_price = Column(Float,nullable=False)
-        box_by_order = Column(Integer,nullable=False)
+        box_out = Column(Integer,primary_keys=True,nullable=False)
+        box_in = Column(Integer,primary_keys=True,nullable=False)
+
+        boxes_out = relationship("Boxes_out", backref="order")
+        boxes_in = relationship("Boxes_in", backref="order")
+
+
     else:
         client_id = ''
         product_id = ''
         quantity = 0
         total_price = 0
-        box_by_order = 0
+        box_out = 0
 
