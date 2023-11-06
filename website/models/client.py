@@ -22,7 +22,10 @@ class Client(BaseModel, Base):
 
         box_out = Column(Integer, nullable=False, default=0)
         box_left = Column(Integer, nullable=False, default=0)
+
         orders = relationship("Order", cascade="all,delete", backref="client")
+        boxes_out = relationship("Box_out", back_populates="client")
+        boxes_in = relationship("Box_in", back_populates="client")
     else:
         name = ''
         tel_number = ''

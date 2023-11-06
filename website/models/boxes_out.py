@@ -10,7 +10,7 @@ from models.base_model import BaseModel, Base
 storage_type = getenv("FRUTA_TYPE_STORAGE")
 
 
-class boxes_out(BaseModel, Base):
+class Box_out(BaseModel, Base):
     """
     Box class
     """
@@ -22,7 +22,16 @@ class boxes_out(BaseModel, Base):
         client_id = Column(Integer, ForeignKey('clients.id'))
 
         client = relationship("Client", back_populates="boxes_out")
-        
+    
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            self.update_client_box_out()
+
+        def update_client_box_out(self):
+            client = self.client
+            if client:
+                client.box_out += self.quantity
+
     else:
         quantity = 0
         order_id = 0

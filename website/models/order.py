@@ -33,8 +33,17 @@ class Order(BaseModel, Base):
         box_out = Column(Integer,primary_keys=True,nullable=False)
         box_in = Column(Integer,primary_keys=True,nullable=False)
 
-        boxes_out = relationship("Boxes_out", backref="order")
-        boxes_in = relationship("Boxes_in", backref="order")
+        boxes_out = relationship("Box_out", backref="order")
+        boxes_in = relationship("Box_in", backref="order")
+
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            self.update_client_box_out()
+
+        def update_client_box_out(self):
+            client = self.client
+            if client:
+                client.box_out += self.box_out
 
 
     else:

@@ -19,6 +19,17 @@ class Box_in(BaseModel, Base):
         return_id = Column(Integer, default=1,autoincrement=True)
         quantity = Column(Integer, default=1) 
         client_id = Column(Integer, ForeignKey('clients.id'))
+    
+     client = relationship("Client", back_populates="boxes_in")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.update_client_box_left()
+
+    def update_client_box_left(self):
+        client = self.client
+        if client:
+            client.box_left += self.quantity
 
     else:
         quantity = 0
