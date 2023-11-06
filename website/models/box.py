@@ -16,6 +16,10 @@ class Box(BaseModel, Base):
     """
     __tablename__ = "boxes"
     if storage_type == 'db':
-        number = Column(Integer, nullable=True, default=0)
+        box_left = Column(Integer, nullable=True, default=0)
+        box_by_order= Column(Integer, nullable=True, default=0)
+        box_by_client = Column(Integer, nullable=True, default=0)
     else:
-        number = 0
+        box_left = 0
+        box_by_order = 0
+        box_by_client = 0
