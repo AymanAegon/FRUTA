@@ -1,7 +1,9 @@
 #!/usr/bin/python3
 """This module defines a class to manage file storage for hbnb clone"""
 from models.client import Client
-from models.box import Box
+from models.product import Product
+from models.boxes_out import Box_out
+from models.boxes_in import Box_in
 from models.order import Order
 from models.product import Product
 from models.base_model import Base

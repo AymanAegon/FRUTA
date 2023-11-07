@@ -2,15 +2,17 @@
 """ FileStorage class."""
 import json
 from models.base_model import BaseModel
-# from models.user import Client
-# from models.order import Order
+from models.client import Client
 from models.product import Product
-# from models.state import Box
+from models.boxes_out import Box_out
+from models.boxes_in import Box_in
+from models.order import Order
+
 
 
 
 classes = {"Client": Client, "BaseModel": BaseModel, "Order": Order,
-           "Product": Product, "Box": Box}
+           "Product": Product, "Box_ou": Box_out,"Box_in":Box_in}
 
 class FileStorage:
     """serializes instances to a JSON file & deserializes back to instances"""
