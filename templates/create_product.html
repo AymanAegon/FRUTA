@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<title>Create New Client - FRUTA</title>
+<title>Create New Product - FRUTA</title>
 {% endblock %}
 
 {% block body %}
@@ -44,15 +44,27 @@
                 <h6 class="mb-4">Fill out the form:</h6>
                 <form method="POST">
                     <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label">Full Name</label>
+                        <label class="col-sm-2 col-form-label">Name</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="client_name">
+                            <input type="text" class="form-control" name="product_name">
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label">Phone Number</label>
+                        <label class="col-sm-2 col-form-label">Price by unit</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="phone_number">
+                            <input type="text" class="form-control" name="product_price">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label">Unit name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="product_unit">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label">Stock</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="product_stock">
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Create</button>
