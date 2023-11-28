@@ -6,6 +6,8 @@ from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
 from os import getenv
 from models.base_model import BaseModel, Base
+import models
+from models.order import Order
 
 storage_type = getenv("FRUTA_TYPE_STORAGE")
 
@@ -39,7 +41,7 @@ class Client(BaseModel, Base):
     if models.storage_t != "db":
         @property
         def orders(self):
-            """getter for list of city instances related to the state"""
+            """getter for list of order instances related to the client"""
             order_list = []
             all_orders = models.storage.all(Order)
             for order in all_orders.values():
