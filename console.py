@@ -7,7 +7,6 @@ from models.base_model import BaseModel
 from models.product import Product
 from models.client import Client
 from models.order import Order
-from models.box import Box
 
 
 class HBNBCommand(cmd.Cmd):

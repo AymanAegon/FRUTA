@@ -7,10 +7,10 @@
             </h3>
         </a>
         <div class="navbar-nav w-100">
-            <a href="{{ url_for('views.home') }}" class="nav-item nav-link {% if home %}active{% endif %}"><i class="bi bi-basket2-fill me-2"></i>Products</a>
+            <a href="{{ url_for('views.home') }}" class="nav-item nav-link {% if home_active %}active{% endif %}"><i class="bi bi-basket2-fill me-2"></i>Products</a>
 
-            <a href="{{ url_for('views.orders') }}" class="nav-item nav-link {% if orders %}active{% endif %}"><i class="bi bi-cart-check-fill me-2"></i>Orders</a>
-            <a href="{{ url_for('views.clients') }}" class="nav-item nav-link {% if clients %}active{% endif %}"><i class="bi bi-people-fill me-2"></i>Clients</a>
+            <a href="{{ url_for('views.orders') }}" class="nav-item nav-link {% if orders_active %}active{% endif %}"><i class="bi bi-cart-check-fill me-2"></i>Orders</a>
+            <a href="{{ url_for('views.clients') }}" class="nav-item nav-link {% if clients_active %}active{% endif %}"><i class="bi bi-people-fill me-2"></i>Clients</a>
         </div>
     </nav>
 </div>

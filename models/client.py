@@ -38,7 +38,7 @@ class Client(BaseModel, Base):
         """initializes state"""
         super().__init__(*args, **kwargs)
 
-    if models.storage_t != "db":
+    if storage_type != "db":
         @property
         def orders(self):
             """getter for list of order instances related to the client"""

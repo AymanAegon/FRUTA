@@ -10,7 +10,7 @@ from models.base_model import BaseModel, Base
 storage_type = getenv("FRUTA_TYPE_STORAGE")
 
 
-class Product(BaseModel):
+class Product(BaseModel, Base):
     """
     Product class
     """

@@ -5,7 +5,6 @@ a class Order that inherits from BaseModel:
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, Integer, String, ForeignKey, Float, Table
 from sqlalchemy.orm import relationship
-from models.client import Client
 from models.product import Product
 from models.boxes_out import Box_out
 from models.boxes_in import Box_in
