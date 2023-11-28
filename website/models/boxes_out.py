@@ -2,7 +2,7 @@
 """
 a class Box that inherits from BaseModel:
 """
-from sqlalchemy import Column, Integer
+from sqlalchemy import Column, Integer, ForeignKey
 from sqlalchemy.orm import relationship
 from os import getenv
 from models.base_model import BaseModel, Base
