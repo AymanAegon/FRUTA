@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""This module defines a class to manage file storage for hbnb clone"""
+"""This module defines a class to manage file storage for FRUTA_ clone"""
 from models.client import Client
 from models.product import Product
 from models.boxes_out import Box_out
@@ -20,18 +20,18 @@ class DBStorage:
 
     def __init__(self):
         """Function Docs"""
-        hb_user = getenv("HBNB_MYSQL_USER")
-        hb_pwd = getenv("HBNB_MYSQL_PWD")
-        hb_host = getenv("HBNB_MYSQL_HOST")
-        hb_db = getenv("HBNB_MYSQL_DB")
-        hb_env = getenv("HBNB_ENV")
+        fruta_user = getenv("FRUTA__MYSQL_USER")
+        fruta_pwd = getenv("FRUTA__MYSQL_PWD")
+        fruta_host = getenv("FRUTA__MYSQL_HOST")
+        fruta_db = getenv("FRUTA__MYSQL_DB")
+        fruta_env = getenv("FRUTA__ENV")
 
         self.__engine = create_engine(
-            f"mysql+mysqldb://{hb_user}:{hb_pwd}@{hb_host}/{hb_db}",
+            f"mysql+mysqldb://{fruta_user}:{fruta_pwd}@{fruta_host}/{fruta_db}",
             pool_pre_ping=True,
         )
 
-        if hb_env == "test":
+        if fruta_env == "test":
             Base.metadata.drop_all(self.__engine)
 
     def reload(self):
@@ -45,7 +45,7 @@ class DBStorage:
     def all(self, cls=None):
         """
         query all classes or specific one"""
-        allClasses = [Box, Product, Client, Order]
+        allClasses = [Product, Client, Order]
         result = {}
         if cls is not None:
             for obj in self.__session.query(cls).all():

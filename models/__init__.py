@@ -3,7 +3,7 @@
 
 from os import getenv
 
-StorageType = getenv('HBNB_TYPE_STORAGE')
+StorageType = getenv('FRUTA__TYPE_STORAGE')
 if StorageType == 'db':
     from models.engine.db_storage import DBStorage
     storage = DBStorage()

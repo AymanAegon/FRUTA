@@ -2,51 +2,52 @@ from flask import Blueprint, render_template, request, redirect
 from models import storage
 from models.client import Client
 from models.product import Product
+from models.order import Order
 
 views = Blueprint('views', __name__)
 
 @views.route('/')
 def home():
-    orders = storage.all("Orders").values()
+    orders = storage.all(Order).values()
     revenue = 0
     for order in orders:
         revenue += order.total_price
     statsinfo = [
-        len(storage.all("Product").values()),
+        len(storage.all(Product).values()),
         len(orders),
         revenue,
-        len(storage.all("Client").values())
+        len(storage.all(Client).values())
     ]
-    products = storage.all("Product").values()
+    products = storage.all(Product).values()
     return render_template("index.html", statsinfo=statsinfo, home_active=True, products=products)
 
 @views.route('/orders')
 def orders():
-    orders = storage.all("Orders").values()
+    orders = storage.all(Order).values()
     revenue = 0
     for order in orders:
         revenue += order.total_price
     statsinfo = [
-        len(storage.all("Product").values()),
+        len(storage.all(Product).values()),
         len(orders),
         revenue,
-        len(storage.all("Client").values())
+        len(storage.all(Client).values())
     ]
     return render_template("orders.html", statsinfo=statsinfo, orders_active=True)
 
 @views.route('/clients')
 def clients():
-    orders = storage.all("Orders").values()
+    orders = storage.all(Order).values()
     revenue = 0
     for order in orders:
         revenue += order.total_price
     statsinfo = [
-        len(storage.all("Product").values()),
+        len(storage.all(Product).values()),
         len(orders),
         revenue,
-        len(storage.all("Client").values())
+        len(storage.all(Client).values())
     ]
-    clients = storage.all("Client").values()
+    clients = storage.all(Client).values()
     return render_template("clients.html", statsinfo=statsinfo, clients_active=True, clients=clients)
 
 @views.route('/blank')
@@ -102,3 +103,4 @@ def create_client():
         new_client.tel_number = tel_number
         new_client.save()
         return redirect('/clients')
+    
