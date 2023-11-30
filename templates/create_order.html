@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Create New Order - FRUTA</title>
+{% endblock %}
+
+{% block body %}
+<div class="container-xxl position-relative bg-white d-flex p-0">
+    <!-- Spinner Start -->
+    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
+
+
+    <!-- Sidebar Start -->
+    {% include 'sidebar.html' %}
+    <!-- Sidebar End -->
+
+    <!-- Content Start -->
+    <div class="content">
+        {% if messages %}
+            {% for catagory, message in messages %}
+            {% if catagory == 'error' %}
+            <div class="p-2 mb-2 bg-warning text-dark">
+                {{ message }}
+            </div>
+            {% else %}
+            <div class="p-2 mb-2 bg-success text-white">
+                {{ message }}
+            </div>
+            {% endif %}
+            {% endfor %}
+        {% endif %}
+        <!-- Navbar Start -->
+        {% include 'navbar.html' %}
+        <!-- Navbar End -->
+
+        <!-- form Start -->
+        <div class="container-fluid pt-4 px-4">
+            <div class="bg-light rounded p-4">
+                <h6 class="mb-4">Fill out the form:</h6>
+                <form method="POST">
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label">Client</label>
+                        <div class="col-sm-10">
+                            <select class="form-select mb-3" aria-label="Default select example" name="client_info">
+                                <option selected>Select Client</option>
+                                {% for client in clients %}
+                                    <option value="{{client.id}}">{{client.name}}, {{client.tel_number}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label">Product</label>
+                        <div class="col-sm-10">
+                            <select class="form-select mb-3" aria-label="Default select example" name="product">
+                                <option selected>Select Product</option>
+                                {% for product in products %}
+                                    <option value="{{product.id}}">{{product.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label">Quantity</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="quantity">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Create</button>
+                </form>
+            </div>
+        </div>
+        <!-- form End -->
+
+        <!-- Footer Start -->
+        <div class="container-fluid pt-4 px-4">
+            <div class="bg-light rounded-top p-4">
+                <div class="row">
+                    <div class="col-12 col-sm-6 text-center text-sm-start">
+                        &copy; <a href="#">FRUTA</a>, All Right Reserved. 
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer End -->
+    </div>
+    <!-- Content End -->
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+</div>
+{% endblock %}

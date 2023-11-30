@@ -21,20 +21,6 @@ def home():
     products = storage.all(Product).values()
     return render_template("index.html", statsinfo=statsinfo, home_active=True, products=products)
 
-@views.route('/orders')
-def orders():
-    orders = storage.all(Order).values()
-    revenue = 0
-    for order in orders:
-        revenue += order.total_price
-    statsinfo = [
-        len(storage.all(Product).values()),
-        len(orders),
-        revenue,
-        len(storage.all(Client).values())
-    ]
-    return render_template("orders.html", statsinfo=statsinfo, orders_active=True)
-
 @views.route('/clients')
 def clients():
     orders = storage.all(Order).values()
@@ -49,6 +35,30 @@ def clients():
     ]
     clients = storage.all(Client).values()
     return render_template("clients.html", statsinfo=statsinfo, clients_active=True, clients=clients)
+
+@views.route('/orders')
+def orders():
+    orders = storage.all(Order).values()
+    revenue = 0
+    results = []
+    obj = {}
+    for order in orders:
+        revenue += order.total_price
+        obj["client_name"] = storage.get(Client, order.client_id).name
+        obj["client_tel"] = storage.get(Client, order.client_id).tel_number
+        obj["product"] = storage.get(Product, order.product_id).name
+        obj["quantity"] = order.quantity
+        obj["total_price"] = order.total_price
+        obj["created_at"] = order.created_at
+        results.append(obj.copy())
+
+    statsinfo = [
+        len(storage.all(Product).values()),
+        len(orders),
+        revenue,
+        len(storage.all(Client).values())
+    ]
+    return render_template("orders.html", statsinfo=statsinfo, orders_active=True, orders=results)
 
 @views.route('/blank')
 def blank():
@@ -78,6 +88,41 @@ def create_product():
         new_product.stock = product_stock
         new_product.save()
         return redirect('/')
+
+@views.route('/create_order', methods=['GET', 'POST'])
+def create_order():
+    messages = []
+    if request.method == 'GET':
+        clients = storage.all(Client).values()
+        products = storage.all(Product).values()
+        return render_template("create_order.html", messages=messages, products=products, clients=clients)
+    else:
+        client_id = request.form['client_info']
+        product = request.form['product']
+        quantity = request.form['quantity']
+        if client_id is None or client_id == "":
+            messages.append(('error', "You must set a client!"))
+            return render_template("create_order.html", messages=messages)
+        if product is None or product == "":
+            messages.append(('error', "You must set a product!"))
+            return render_template("create_order.html", messages=messages)
+        if quantity is None or quantity == "":
+            messages.append(('error', "You must set the Quantity!"))
+            return render_template("create_order.html", messages=messages)
+        try:
+            quantity = float(quantity)
+        except ValueError:
+            messages.append(('error', "The Quantity must be a number!"))
+            return render_template("create_order.html", messages=messages)
+        
+        price = float(quantity) * storage.get(Product, product).unit_price
+        new_order = Order()
+        new_order.client_id = client_id
+        new_order.product_id = product
+        new_order.quantity = quantity
+        new_order.total_price = price
+        new_order.save()
+        return redirect('/orders')
 
 @views.route('/create_client', methods=['GET', 'POST'])
 def create_client():
