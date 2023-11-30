@@ -47,6 +47,7 @@ def orders():
         obj["client_name"] = storage.get(Client, order.client_id).name
         obj["client_tel"] = storage.get(Client, order.client_id).tel_number
         obj["product"] = storage.get(Product, order.product_id).name
+        obj["id"] = order.id
         obj["quantity"] = order.quantity
         obj["total_price"] = order.total_price
         obj["created_at"] = order.created_at
@@ -126,14 +127,14 @@ def create_order():
             return render_template("create_order.html", messages=messages)
         
         product_obj = storage.get(Product, product)
-        price = float(quantity) * product_obj.unit_price
+        price = float(quantity) * float(product_obj.unit_price)
         new_order = Order()
         new_order.client_id = client_id
         new_order.product_id = product
         new_order.quantity = quantity
         new_order.total_price = price
         new_order.save()
-        product_obj.stock -= float(quantity)
+        product_obj.stock = float(product_obj.stock) - float(quantity)
         product_obj.save()
         return redirect('/orders')
 
@@ -141,7 +142,7 @@ def create_order():
 def create_client():
     messages = []
     if request.method == 'GET':
-        return render_template("create_client.html", messages=messages, create_client=True)
+        return render_template("create_client.html", messages=messages, clients_active=True)
     else:
         name = request.form['client_name']
         tel_number = request.form['phone_number']
@@ -161,4 +162,19 @@ def create_client():
         new_client.tel_number = tel_number
         new_client.save()
         return redirect('/clients')
+
+@views.route('/product_info/<product_id>')
+def product_info(product_id):
+    product = storage.get(Product, product_id)
+    return render_template("product_info.html", home_active=True, product=product)
+
+@views.route('/client_info/<client_id>')
+def client_info(client_id):
+    client = storage.get(Client, client_id)
+    return render_template("client_info.html", clients_active=True, client=client)
+
+@views.route('/order_info/<order_id>')
+def order_info(order_id):
+    order = storage.get(Order, order_id)
+    return render_template("order_info.html", orders_active=True, order=order)
     

@@ -53,7 +53,7 @@
                         </thead>
                         <tbody>
                             {% for client in clients %}
-                            <tr onclick='location.href=`{{ url_for("views.blank") }}`'>
+                            <tr onclick='location.href=`{{ url_for("views.client_info", client_id=client.id) }}`'>
                                 <!-- <td><input class="form-check-input" type="checkbox"></td> -->
                                 <td>{{client.name}}</td>
                                 <td>{{client.tel_number}}</td>
