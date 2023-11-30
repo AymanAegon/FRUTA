@@ -80,6 +80,16 @@ def create_product():
         if product_price is None or product_price == "":
             messages.append(('error', "You must set the Price!"))
             return render_template("create_product.html", messages=messages, create_client=True)
+        try:
+            product_price = float(product_price)
+        except ValueError:
+            messages.append(('error', "The Price must be a number!"))
+            return render_template("create_product.html", messages=messages)
+        try:
+            product_stock = float(product_stock)
+        except ValueError:
+            messages.append(('error', "The Quantity must be a number!"))
+            return render_template("create_product.html", messages=messages)
 
         new_product = Product()
         new_product.name = product_name
@@ -115,13 +125,16 @@ def create_order():
             messages.append(('error', "The Quantity must be a number!"))
             return render_template("create_order.html", messages=messages)
         
-        price = float(quantity) * storage.get(Product, product).unit_price
+        product_obj = storage.get(Product, product)
+        price = float(quantity) * product_obj.unit_price
         new_order = Order()
         new_order.client_id = client_id
         new_order.product_id = product
         new_order.quantity = quantity
         new_order.total_price = price
         new_order.save()
+        product_obj.stock -= float(quantity)
+        product_obj.save()
         return redirect('/orders')
 
 @views.route('/create_client', methods=['GET', 'POST'])

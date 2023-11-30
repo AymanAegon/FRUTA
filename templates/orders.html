@@ -41,7 +41,7 @@
                     </button></a>
                 </div>
                 <div class="table-responsive">
-                    <table class="table text-start align-middle table-bordered table-hover mb-0">
+                    <table class="table text-start align-middle table-bordered table-hover mb-0 data-table">
                         <thead>
                             <tr class="text-dark">
                                 <!-- <th scope="col"><input class="form-check-input" type="checkbox"></th> -->
@@ -54,7 +54,7 @@
                         </thead>
                         <tbody>
                             {% for order in orders %}
-                            <tr>
+                            <tr onclick='location.href=`{{ url_for("views.blank") }}`'>
                                 <!-- <td><input class="form-check-input" type="checkbox"></td> -->
                                 <td>{{order.client_name}}, {{order.client_tel}}</td>
                                 <td>{{order.product}}</td>
