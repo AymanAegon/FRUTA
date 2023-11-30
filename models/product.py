@@ -6,8 +6,8 @@ from sqlalchemy import Column, Float, String
 from sqlalchemy.orm import relationship
 from os import getenv
 from models.base_model import BaseModel, Base
+import models
 
-storage_type = getenv("FRUTA_TYPE_STORAGE")
 
 
 class Product(BaseModel, Base):
@@ -15,7 +15,7 @@ class Product(BaseModel, Base):
     Product class
     """
     __tablename__ = "products"
-    if storage_type == 'db':
+    if models.StorageType == 'db':
         name = Column(String(128), nullable=False)
         unit_price = Column(Float, nullable=False)
         unit_name = Column(String(128), nullable=True, default="unit")

@@ -4,15 +4,13 @@ import json
 from models.base_model import BaseModel
 from models.client import Client
 from models.product import Product
-from models.boxes_out import Box_out
-from models.boxes_in import Box_in
 from models.order import Order
 
 
 
 
 classes = {"Client": Client, "BaseModel": BaseModel, "Order": Order,
-           "Product": Product, "Box_ou": Box_out,"Box_in":Box_in}
+           "Product": Product}
 
 class FileStorage:
     """serializes instances to a JSON file & deserializes back to instances"""

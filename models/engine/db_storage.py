@@ -2,18 +2,21 @@
 """This module defines a class to manage file storage for FRUTA_ clone"""
 from models.client import Client
 from models.product import Product
-from models.boxes_out import Box_out
-from models.boxes_in import Box_in
+
 from models.order import Order
 from models.product import Product
-from models.base_model import Base
+from models.base_model import BaseModel ,Base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from os import getenv
+import models
 
 
 class DBStorage:
     """Class Docs"""
+
+    classes = {"Order": Order, "Client": Client,
+           "Product": Product}
 
     __engine = None
     __session = None

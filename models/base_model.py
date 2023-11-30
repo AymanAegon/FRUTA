@@ -3,12 +3,16 @@
 import models
 import uuid
 import datetime
-
+import sqlalchemy
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String, DateTime
 
 
-Base = declarative_base()
+
+if models.StorageType == "db":
+    Base = declarative_base()
+else:
+    Base = object
 
 
 class BaseModel:

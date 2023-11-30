@@ -93,7 +93,7 @@ def create_client():
         if tel_number is None or tel_number == "":
             messages.append(('error', "You must put the Phone number!"))
             return render_template("create_client.html", messages=messages, create_client=True)
-        clients = storage.all("Client").values()
+        clients = storage.all(Client).values()
         for client in clients:
             if tel_number == client.tel_number:
                 messages.append(('error', "Phone number already exist!"))

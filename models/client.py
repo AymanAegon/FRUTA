@@ -2,14 +2,14 @@
 """
 a class Client that inherits from BaseModel:
 """
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String,ForeignKey
 from sqlalchemy.orm import relationship
 from os import getenv
 from models.base_model import BaseModel, Base
 import models
 from models.order import Order
 
-storage_type = getenv("FRUTA_TYPE_STORAGE")
+
 
 
 class Client(BaseModel, Base):
@@ -18,27 +18,23 @@ class Client(BaseModel, Base):
     """
     __tablename__ = "clients"
 
-    if storage_type == 'db':
+    if models.StorageType == 'db':
         name = Column(String(128), nullable=False)
         tel_number = Column(String(60), nullable=True)
 
-        box_out = Column(Integer, nullable=False, default=0)
-        box_left = Column(Integer, nullable=False, default=0)
+        # Add ForeignKey constraint to the orders relationship
+        orders = relationship("Order", cascade="all,delete", backref="client", foreign_keys="Order.client_id")
 
-        orders = relationship("Order", cascade="all,delete", backref="client")
-        boxes_out = relationship("Box_out", back_populates="client")
-        boxes_in = relationship("Box_in", back_populates="client")
     else:
         name = ''
         tel_number = ''
-        box_out = 0
-        box_left = 0
+
 
     def __init__(self, *args, **kwargs):
         """initializes state"""
         super().__init__(*args, **kwargs)
 
-    if storage_type != "db":
+    if models.StorageType != "db":
         @property
         def orders(self):
             """getter for list of order instances related to the client"""
