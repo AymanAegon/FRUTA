@@ -18,13 +18,11 @@ class Order(BaseModel, Base):
     """
     Order class
     """
-    __tablename__ = "orders"
     if models.StorageType == "db":
-
-        client_id = Column(String(60), ForeignKey("clients.id"), nullable=False)
-        product_id =Column(String(60), ForeignKey("products.id"), nullable=False)
+        __tablename__ = "orders"
         quantity = Column(Float,nullable=False)
         total_price = Column(Float,nullable=False)
+        client_id = Column(String(60), ForeignKey("clients.id"), nullable=False)
 
 
 

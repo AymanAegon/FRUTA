@@ -16,16 +16,13 @@ class Client(BaseModel, Base):
     """
     Client class
     """
-    __tablename__ = "clients"
-
     if models.StorageType == 'db':
+        __tablename__ = "clients"
         name = Column(String(128), nullable=False)
         tel_number = Column(String(60), nullable=True)
 
         # Add ForeignKey constraint to the orders relationship
-        orders = relationship("Order", cascade="all,delete", backref="client", foreign_keys="Order.client_id")
-
-    else:
+        orders = relationship("Order", cascade="all,delete", backref="client",)
         name = ''
         tel_number = ''
 
