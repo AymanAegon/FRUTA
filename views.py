@@ -7,7 +7,7 @@ from models.order import Order
 views = Blueprint('views', __name__)
 
 @views.route('/')
-def home():
+def products():
     orders = storage.all(Order).values()
     revenue = 0
     for order in orders:
@@ -19,7 +19,7 @@ def home():
         len(storage.all(Client).values())
     ]
     products = storage.all(Product).values()
-    return render_template("index.html", statsinfo=statsinfo, home_active=True, products=products)
+    return render_template("products.html", statsinfo=statsinfo, products_active=True, products=products)
 
 @views.route('/clients')
 def clients():
@@ -69,7 +69,7 @@ def blank():
 def create_product():
     messages = []
     if request.method == 'GET':
-        return render_template("create_product.html", messages=messages, create_client=True)
+        return render_template("create_product.html", messages=messages, products_active=True)
     else:
         product_name = request.form['product_name']
         product_price = request.form['product_price']
@@ -77,20 +77,26 @@ def create_product():
         product_stock = request.form['product_stock']
         if product_name is None or product_name == "":
             messages.append(('error', "You must put a name!"))
-            return render_template("create_product.html", messages=messages, create_client=True)
+            return render_template("create_product.html", messages=messages, products_active=True)
         if product_price is None or product_price == "":
             messages.append(('error', "You must set the Price!"))
-            return render_template("create_product.html", messages=messages, create_client=True)
+            return render_template("create_product.html", messages=messages, products_active=True)
         try:
             product_price = float(product_price)
         except ValueError:
             messages.append(('error', "The Price must be a number!"))
-            return render_template("create_product.html", messages=messages)
+            return render_template("create_product.html", messages=messages, products_active=True)
+        if product_price < 0:
+            messages.append(('error', "The Price must be positive!"))
+            return render_template("create_product.html", messages=messages, products_active=True)
         try:
             product_stock = float(product_stock)
         except ValueError:
             messages.append(('error', "The Quantity must be a number!"))
-            return render_template("create_product.html", messages=messages)
+            return render_template("create_product.html", messages=messages, products_active=True)
+        if product_stock < 0:
+            messages.append(('error', "The Quantity must be positive!"))
+            return render_template("create_product.html", messages=messages, products_active=True)
 
         new_product = Product()
         new_product.name = product_name
@@ -102,10 +108,10 @@ def create_product():
 
 @views.route('/create_order', methods=['GET', 'POST'])
 def create_order():
+    clients = storage.all(Client).values()
+    products = storage.all(Product).values()
     messages = []
     if request.method == 'GET':
-        clients = storage.all(Client).values()
-        products = storage.all(Product).values()
         return render_template("create_order.html", messages=messages, products=products, clients=clients)
     else:
         client_id = request.form['client_info']
@@ -113,20 +119,24 @@ def create_order():
         quantity = request.form['quantity']
         if client_id is None or client_id == "":
             messages.append(('error', "You must set a client!"))
-            return render_template("create_order.html", messages=messages)
+            return render_template("create_order.html", messages=messages, products=products, clients=clients)
         if product is None or product == "":
             messages.append(('error', "You must set a product!"))
-            return render_template("create_order.html", messages=messages)
+            return render_template("create_order.html", messages=messages, products=products, clients=clients)
         if quantity is None or quantity == "":
             messages.append(('error', "You must set the Quantity!"))
-            return render_template("create_order.html", messages=messages)
+            return render_template("create_order.html", messages=messages, products=products, clients=clients)
         try:
             quantity = float(quantity)
         except ValueError:
             messages.append(('error', "The Quantity must be a number!"))
-            return render_template("create_order.html", messages=messages)
-        
+            return render_template("create_order.html", messages=messages, products=products, clients=clients)
+
+        quantity = float(quantity)
         product_obj = storage.get(Product, product)
+        if quantity > float(product_obj.stock):
+            messages.append(('error', "There is not enough stock!"))
+            return render_template("create_order.html", messages=messages, products=products, clients=clients)
         price = float(quantity) * float(product_obj.unit_price)
         new_order = Order()
         new_order.client_id = client_id
@@ -166,15 +176,21 @@ def create_client():
 @views.route('/product_info/<product_id>')
 def product_info(product_id):
     product = storage.get(Product, product_id)
+    if product is None:
+        return render_template('404.html'), 404
     return render_template("product_info.html", home_active=True, product=product)
 
 @views.route('/client_info/<client_id>')
 def client_info(client_id):
     client = storage.get(Client, client_id)
+    if client is None:
+        return render_template('404.html'), 404
     return render_template("client_info.html", clients_active=True, client=client)
 
 @views.route('/order_info/<order_id>')
 def order_info(order_id):
     order = storage.get(Order, order_id)
+    if order is None:
+        return render_template('404.html'), 404
     return render_template("order_info.html", orders_active=True, order=order)
     
