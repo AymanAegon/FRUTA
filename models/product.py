@@ -20,6 +20,9 @@ class Product(BaseModel, Base):
         unit_price = Column(Float, nullable=False)
         unit_name = Column(String(128), nullable=True, default="unit")
         stock = Column(String(128), nullable=False, default=0)
+
+        # Add ForeignKey constraint to the orders relationship
+        orders = relationship("Order", cascade="all,delete", backref="product")
        
     else:
         name = ''

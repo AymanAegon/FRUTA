@@ -23,10 +23,7 @@ class Order(BaseModel, Base):
         quantity = Column(Float,nullable=False)
         total_price = Column(Float,nullable=False)
         client_id = Column(String(60), ForeignKey("clients.id"), nullable=False)
-
-
-
-
+        product_id = Column(String(60), ForeignKey("products.id"), nullable=False)
 
     else:
         client_id = ''

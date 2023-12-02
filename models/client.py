@@ -22,7 +22,9 @@ class Client(BaseModel, Base):
         tel_number = Column(String(60), nullable=True)
 
         # Add ForeignKey constraint to the orders relationship
-        orders = relationship("Order", cascade="all,delete", backref="client",)
+        orders = relationship("Order", cascade="all,delete", backref="client")
+
+    else:
         name = ''
         tel_number = ''
 
