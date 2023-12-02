@@ -5,11 +5,12 @@ from models.base_model import BaseModel
 from models.client import Client
 from models.product import Product
 from models.order import Order
+from models.user import User
 
 
 
 
-classes = {"Client": Client, "BaseModel": BaseModel, "Order": Order,
+classes = {"User": User, "Client": Client, "BaseModel": BaseModel, "Order": Order,
            "Product": Product}
 
 class FileStorage:

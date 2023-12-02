@@ -3,10 +3,12 @@ from models import storage
 from models.client import Client
 from models.product import Product
 from models.order import Order
+from flask_login import login_user, login_required, logout_user, current_user
 
 views = Blueprint('views', __name__)
 
 @views.route('/')
+@login_required
 def products():
     orders = storage.all(Order).values()
     revenue = 0
@@ -22,6 +24,7 @@ def products():
     return render_template("products.html", statsinfo=statsinfo, products_active=True, products=products)
 
 @views.route('/clients')
+@login_required
 def clients():
     orders = storage.all(Order).values()
     revenue = 0
@@ -37,6 +40,7 @@ def clients():
     return render_template("clients.html", statsinfo=statsinfo, clients_active=True, clients=clients)
 
 @views.route('/orders')
+@login_required
 def orders():
     orders = storage.all(Order).values()
     revenue = 0
@@ -62,10 +66,12 @@ def orders():
     return render_template("orders.html", statsinfo=statsinfo, orders_active=True, orders=results)
 
 @views.route('/blank')
+@login_required
 def blank():
     return render_template("blank.html")
 
 @views.route('/create_product', methods=['GET', 'POST'])
+@login_required
 def create_product():
     messages = []
     if request.method == 'GET':
@@ -107,36 +113,37 @@ def create_product():
         return redirect('/')
 
 @views.route('/create_order', methods=['GET', 'POST'])
+@login_required
 def create_order():
     clients = storage.all(Client).values()
     products = storage.all(Product).values()
     messages = []
     if request.method == 'GET':
-        return render_template("create_order.html", messages=messages, products=products, clients=clients)
+        return render_template("create_order.html", messages=messages, products=products, clients=clients, orders_active=True)
     else:
         client_id = request.form['client_info']
         product = request.form['product']
         quantity = request.form['quantity']
         if client_id is None or client_id == "":
             messages.append(('error', "You must set a client!"))
-            return render_template("create_order.html", messages=messages, products=products, clients=clients)
+            return render_template("create_order.html", messages=messages, products=products, clients=clients, orders_active=True)
         if product is None or product == "":
             messages.append(('error', "You must set a product!"))
-            return render_template("create_order.html", messages=messages, products=products, clients=clients)
+            return render_template("create_order.html", messages=messages, products=products, clients=clients, orders_active=True)
         if quantity is None or quantity == "":
             messages.append(('error', "You must set the Quantity!"))
-            return render_template("create_order.html", messages=messages, products=products, clients=clients)
+            return render_template("create_order.html", messages=messages, products=products, clients=clients, orders_active=True)
         try:
             quantity = float(quantity)
         except ValueError:
             messages.append(('error', "The Quantity must be a number!"))
-            return render_template("create_order.html", messages=messages, products=products, clients=clients)
+            return render_template("create_order.html", messages=messages, products=products, clients=clients, orders_active=True)
 
         quantity = float(quantity)
         product_obj = storage.get(Product, product)
         if quantity > float(product_obj.stock):
             messages.append(('error', "There is not enough stock!"))
-            return render_template("create_order.html", messages=messages, products=products, clients=clients)
+            return render_template("create_order.html", messages=messages, products=products, clients=clients, orders_active=True)
         price = float(quantity) * float(product_obj.unit_price)
         new_order = Order()
         new_order.client_id = client_id
@@ -149,6 +156,7 @@ def create_order():
         return redirect('/orders')
 
 @views.route('/create_client', methods=['GET', 'POST'])
+@login_required
 def create_client():
     messages = []
     if request.method == 'GET':
@@ -158,15 +166,15 @@ def create_client():
         tel_number = request.form['phone_number']
         if name is None or name == "":
             messages.append(('error', "You must put a name!"))
-            return render_template("create_client.html", messages=messages, create_client=True)
+            return render_template("create_client.html", messages=messages, clients_active=True)
         if tel_number is None or tel_number == "":
             messages.append(('error', "You must put the Phone number!"))
-            return render_template("create_client.html", messages=messages, create_client=True)
+            return render_template("create_client.html", messages=messages, clients_active=True)
         clients = storage.all(Client).values()
         for client in clients:
             if tel_number == client.tel_number:
                 messages.append(('error', "Phone number already exist!"))
-                return render_template("create_client.html", messages=messages, create_client=True)
+                return render_template("create_client.html", messages=messages, clients_active=True)
         new_client = Client()
         new_client.name = name
         new_client.tel_number = tel_number
@@ -174,6 +182,7 @@ def create_client():
         return redirect('/clients')
 
 @views.route('/product_info/<product_id>')
+@login_required
 def product_info(product_id):
     product = storage.get(Product, product_id)
     if product is None:
@@ -181,6 +190,7 @@ def product_info(product_id):
     return render_template("product_info.html", home_active=True, product=product)
 
 @views.route('/client_info/<client_id>')
+@login_required
 def client_info(client_id):
     client = storage.get(Client, client_id)
     if client is None:
@@ -188,6 +198,7 @@ def client_info(client_id):
     return render_template("client_info.html", clients_active=True, client=client)
 
 @views.route('/order_info/<order_id>')
+@login_required
 def order_info(order_id):
     order = storage.get(Order, order_id)
     if order is None:

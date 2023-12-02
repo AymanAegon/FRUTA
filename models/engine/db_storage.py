@@ -1,10 +1,9 @@
 #!/usr/bin/python3
 """This module defines a class to manage file storage for FRUTA_ clone"""
+from models.user import User
 from models.client import Client
 from models.product import Product
-
 from models.order import Order
-from models.product import Product
 from models.base_model import BaseModel ,Base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
@@ -15,7 +14,7 @@ import models
 class DBStorage:
     """Class Docs"""
 
-    classes = {"Order": Order, "Client": Client,
+    classes = {"User": User, "Order": Order, "Client": Client,
            "Product": Product}
 
     __engine = None
@@ -48,7 +47,7 @@ class DBStorage:
     def all(self, cls=None):
         """
         query all classes or specific one"""
-        allClasses = [Product, Client, Order]
+        allClasses = [User, Product, Client, Order]
         result = {}
         if cls is not None:
             for obj in self.__session.query(cls).all():

@@ -20,6 +20,8 @@ class Client(BaseModel, Base):
         __tablename__ = "clients"
         name = Column(String(128), nullable=False)
         tel_number = Column(String(60), nullable=True)
+        user_id = Column(String(60), ForeignKey("users.id"), nullable=False)
+
 
         # Add ForeignKey constraint to the orders relationship
         orders = relationship("Order", cascade="all,delete", backref="client")
@@ -27,6 +29,7 @@ class Client(BaseModel, Base):
     else:
         name = ''
         tel_number = ''
+        user_id = ''
 
 
     def __init__(self, *args, **kwargs):
