@@ -25,7 +25,7 @@ class User(BaseModel, Base):
         __tablename__ = "users"
         name = Column(String(128), nullable=False)
         email = Column(String(128), unique=True, nullable=False)
-        password = Column(String(128), nullable=False)
+        password = Column(String(256), nullable=False)
 
         # Add ForeignKey constraint to the orders relationship
         products = relationship("Product", cascade="all,delete", backref="user")
