@@ -4,6 +4,17 @@ from models.client import Client
 from models.product import Product
 from models.order import Order
 from flask_login import login_user, login_required, logout_user, current_user
+from flask_login import LoginManager
+from models.user import User
+from models import storage
+from main import app
+
+login_manager = LoginManager(app)
+login_manager.login_view = 'auth.login'
+
+@login_manager.user_loader
+def load_user(id):
+    return storage.get(User, id)
 
 views = Blueprint('views', __name__)
 
