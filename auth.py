@@ -64,6 +64,6 @@ def signup():
             new_user.password = generate_password_hash(password1, method="sha256")
             new_user.save()
             flash('Account created!', category="success")
-            login_user(user, remember=True)
+            login_user(new_user, remember=True)
             return redirect(url_for('views.products'))
     return render_template("sign_up.html")
