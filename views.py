@@ -11,6 +11,7 @@ views = Blueprint('views', __name__)
 @views.route('/')
 @login_required
 def products():
+    # statinfo data start
     # geting the user orders
     revenue = 0
     arr = storage.all(Order).values()
@@ -33,30 +34,65 @@ def products():
             clients.append(obj)
     # creating the statinfo data list to display in the dashboard
     statsinfo = [len(products), len(orders), revenue, len(clients)]
-
+    # statinfo data end
     return render_template("products.html", statsinfo=statsinfo, products_active=True, products=products)
 
 @views.route('/clients')
 @login_required
 def clients():
-    orders = storage.all(Order).values()
+    # statinfo data start
+    # geting the user orders
     revenue = 0
-    for order in orders:
-        revenue += order.total_price
-    statsinfo = [
-        len(storage.all(Product).values()),
-        len(orders),
-        revenue,
-        len(storage.all(Client).values())
-    ]
-    clients = storage.all(Client).values()
+    arr = storage.all(Order).values()
+    orders = []
+    for order in arr:
+        if order.user_id == current_user.id:
+            revenue += order.total_price
+            orders.append(order)
+    # geting the user products
+    arr = storage.all(Product).values()
+    products = []
+    for obj in arr:
+        if obj.user_id == current_user.id:
+            products.append(obj)
+    # geting the user clients
+    arr = storage.all(Client).values()
+    clients = []
+    for obj in arr:
+        if obj.user_id == current_user.id:
+            clients.append(obj)
+    # creating the statinfo data list to display in the dashboard
+    statsinfo = [len(products), len(orders), revenue, len(clients)]
+    # statinfo data end
     return render_template("clients.html", statsinfo=statsinfo, clients_active=True, clients=clients)
 
 @views.route('/orders')
 @login_required
 def orders():
-    orders = storage.all(Order).values()
+    # statinfo data start
+    # geting the user orders
     revenue = 0
+    arr = storage.all(Order).values()
+    orders = []
+    for order in arr:
+        if order.user_id == current_user.id:
+            revenue += order.total_price
+            orders.append(order)
+    # geting the user products
+    arr = storage.all(Product).values()
+    products = []
+    for obj in arr:
+        if obj.user_id == current_user.id:
+            products.append(obj)
+    # geting the user clients
+    arr = storage.all(Client).values()
+    clients = []
+    for obj in arr:
+        if obj.user_id == current_user.id:
+            clients.append(obj)
+    # creating the statinfo data list to display in the dashboard
+    statsinfo = [len(products), len(orders), revenue, len(clients)]
+    # statinfo data end
     results = []
     obj = {}
     for order in orders:
@@ -69,13 +105,6 @@ def orders():
         obj["total_price"] = order.total_price
         obj["created_at"] = order.created_at
         results.append(obj.copy())
-
-    statsinfo = [
-        len(storage.all(Product).values()),
-        len(orders),
-        revenue,
-        len(storage.all(Client).values())
-    ]
     return render_template("orders.html", statsinfo=statsinfo, orders_active=True, orders=results)
 
 @views.route('/blank')
