@@ -61,7 +61,7 @@ def signup():
             new_user = User()
             new_user.name = name
             new_user.email = email
-            new_user.password = generate_password_hash(password1, method="sha256")
+            new_user.password = generate_password_hash(password1, method="scrypt")
             new_user.save()
             flash('Account created!', category="success")
             login_user(new_user, remember=True)
