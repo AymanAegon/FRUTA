@@ -158,8 +158,16 @@ def create_product():
 @views.route('/create_order', methods=['GET', 'POST'])
 @login_required
 def create_order():
-    clients = storage.all(Client).values()
-    products = storage.all(Product).values()
+    arr = storage.all(Client).values()
+    clients = []
+    for obj in arr:
+        if obj.user_id == current_user.id:
+            clients.append(obj)
+    arr = storage.all(Product).values()
+    products = []
+    for obj in arr:
+        if obj.user_id == current_user.id:
+            products.append(obj)
     messages = []
     if request.method == 'GET':
         return render_template("create_order.html", messages=messages, products=products, clients=clients, orders_active=True)
@@ -214,7 +222,11 @@ def create_client():
         if tel_number is None or tel_number == "":
             messages.append(('error', "You must put the Phone number!"))
             return render_template("create_client.html", messages=messages, clients_active=True)
-        clients = storage.all(Client).values()
+        arr = storage.all(Client).values()
+        clients = []
+        for obj in arr:
+            if obj.user_id == current_user.id:
+                clients.append(obj)
         for client in clients:
             if tel_number == client.tel_number:
                 messages.append(('error', "Phone number already exist!"))
