@@ -3,15 +3,6 @@ from models.user import User
 from models import storage
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
-from main import app
-from flask_login import LoginManager
-
-login_manager = LoginManager(app)
-login_manager.login_view = 'auth.login'
-
-@login_manager.user_loader
-def load_user(id):
-    return storage.get(User, id)
 
 auth = Blueprint('auth', __name__)
 
