@@ -179,6 +179,7 @@ def create_client():
         new_client = Client()
         new_client.name = name
         new_client.tel_number = tel_number
+        new_client.user_id = current_user.id
         new_client.save()
         return redirect('/clients')
 
