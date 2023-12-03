@@ -11,17 +11,29 @@ views = Blueprint('views', __name__)
 @views.route('/')
 @login_required
 def products():
-    orders = storage.all(Order).values()
+    # geting the user orders
     revenue = 0
-    for order in orders:
-        revenue += order.total_price
-    statsinfo = [
-        len(storage.all(Product).values()),
-        len(orders),
-        revenue,
-        len(storage.all(Client).values())
-    ]
-    products = storage.all(Product).values()
+    arr = storage.all(Order).values()
+    orders = []
+    for order in arr:
+        if order.user_id == current_user.id:
+            revenue += order.total_price
+            orders.append(order)
+    # geting the user products
+    arr = storage.all(Product).values()
+    products = []
+    for obj in arr:
+        if obj.user_id == current_user.id:
+            products.append(obj)
+    # geting the user clients
+    arr = storage.all(Client).values()
+    clients = []
+    for obj in arr:
+        if obj.user_id == current_user.id:
+            clients.append(obj)
+    # creating the statinfo data list to display in the dashboard
+    statsinfo = [len(products), len(orders), revenue, len(clients)]
+
     return render_template("products.html", statsinfo=statsinfo, products_active=True, products=products)
 
 @views.route('/clients')
@@ -110,6 +122,7 @@ def create_product():
         new_product.unit_price = product_price
         new_product.unit_name = product_unit
         new_product.stock = product_stock
+        new_product.user_id = current_user.id
         new_product.save()
         return redirect('/')
 
@@ -151,6 +164,7 @@ def create_order():
         new_order.product_id = product
         new_order.quantity = quantity
         new_order.total_price = price
+        new_order.user_id = current_user.id
         new_order.save()
         product_obj.stock = float(product_obj.stock) - float(quantity)
         product_obj.save()
