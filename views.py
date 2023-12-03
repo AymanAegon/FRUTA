@@ -22,7 +22,7 @@ def products():
         len(storage.all(Client).values())
     ]
     products = storage.all(Product).values()
-    return render_template("products.html", statsinfo=statsinfo, products_active=True, products=products)
+    return render_template("products.html", statsinfo=statsinfo, products_active=True, products=products, user=current_user)
 
 @views.route('/clients')
 @login_required
