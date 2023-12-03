@@ -1,9 +1,18 @@
 from flask import Flask
+from flask_login import LoginManager
+from models.user import User
+from models import storage
 
 def create_app():
     app = Flask(__name__)
-    app.secret_key = 'hghghghg'
     app.config['SECRET_KEY'] = 'hghghghg'
+
+    login_manager = LoginManager(app)
+    login_manager.login_view = 'auth.login'
+
+    @login_manager.user_loader
+    def load_user(id):
+        return storage.get(User, id)
 
     from views import views
     from auth import auth
