@@ -107,34 +107,40 @@ def blank():
 def create_product():
     messages = []
     if request.method == 'GET':
-        return render_template("create_product.html", messages=messages, products_active=True)
+        return render_template("create_product.html", products_active=True)
     else:
         product_name = request.form['product_name']
         product_price = request.form['product_price']
         product_unit = request.form['product_unit']
         product_stock = request.form['product_stock']
         if product_name is None or product_name == "":
-            messages.append(('error', "You must put a name!"))
-            return render_template("create_product.html", messages=messages, products_active=True)
+            flash('You must put a Name!', category="error")
+            return render_template("create_product.html", products_active=True)
         if product_price is None or product_price == "":
-            messages.append(('error', "You must set the Price!"))
-            return render_template("create_product.html", messages=messages, products_active=True)
+            flash('You must set a Price!', category="error")
+            return render_template("create_product.html", products_active=True)
+        if product_unit is None or product_unit == "":
+            flash('You must put a Unit!', category="error")
+            return render_template("create_product.html", products_active=True)
+        if product_stock is None or product_stock == "":
+            flash('You must set the Quantity!', category="error")
+            return render_template("create_product.html", products_active=True)
         try:
             product_price = float(product_price)
         except ValueError:
-            messages.append(('error', "The Price must be a number!"))
-            return render_template("create_product.html", messages=messages, products_active=True)
+            flash('he Price must be a number!', category="error")
+            return render_template("create_product.html", products_active=True)
         if product_price < 0:
-            messages.append(('error', "The Price must be positive!"))
-            return render_template("create_product.html", messages=messages, products_active=True)
+            flash('The Price must be positive!', category="error")
+            return render_template("create_product.html", products_active=True)
         try:
             product_stock = float(product_stock)
         except ValueError:
-            messages.append(('error', "The Quantity must be a number!"))
-            return render_template("create_product.html", messages=messages, products_active=True)
+            flash('The Quantity must be a number!', category="error")
+            return render_template("create_product.html", products_active=True)
         if product_stock < 0:
-            messages.append(('error', "The Quantity must be positive!"))
-            return render_template("create_product.html", messages=messages, products_active=True)
+            flash('The Quantity must be positive!', category="error")
+            return render_template("create_product.html", products_active=True)
 
         new_product = Product()
         new_product.name = product_name
@@ -230,6 +236,8 @@ def client_info(client_id):
     client = storage.get(Client, client_id)
     if client is None:
         return render_template('404.html'), 404
+    if current_user.id != client.user_id:
+        flash('An error has occurred!', category="error")
     orders = client.orders
     spendings = 0
     for order in orders:
@@ -285,7 +293,75 @@ def product_info(product_id):
     product = storage.get(Product, product_id)
     if product is None:
         return render_template('404.html'), 404
-    return render_template("product_info.html", home_active=True, product=product)
+    if current_user.id != product.user_id:
+        flash('An error has occurred!', category="error")
+    revenue = 0
+    for order in product.orders:
+        revenue += order.total_price
+    return render_template("product_info.html", home_active=True, product=product, revenue=revenue)
+
+@views.route('/edit_product/<product_id>', methods=['GET', 'POST'])
+@login_required
+def edit_product(product_id):
+    product = storage.get(Product, product_id)
+    if product is None:
+        return render_template('404.html'), 404
+    if current_user.id != product.user_id:
+        flash('An error has occurred!', category="error")
+    if request.method == 'POST':
+        product_name = request.form['product_name']
+        product_price = request.form['product_price']
+        product_unit = request.form['product_unit']
+        product_stock = request.form['product_stock']
+        if product_name is None or product_name == "":
+            flash('You must put a Name!', category="error")
+            return render_template("edit_product.html", home_active=True, product=product)
+        if product_price is None or product_price == "":
+            flash('You must set a Price!', category="error")
+            return render_template("edit_product.html", home_active=True, product=product)
+        if product_unit is None or product_unit == "":
+            flash('You must put a Unit!', category="error")
+            return render_template("edit_product.html", home_active=True, product=product)
+        if product_stock is None or product_stock == "":
+            flash('You must set the Quantity!', category="error")
+            return render_template("edit_product.html", home_active=True, product=product)
+        try:
+            product_price = float(product_price)
+        except ValueError:
+            flash('The Price must be a number!', category="error")
+            return render_template("edit_product.html", home_active=True, product=product)
+        if product_price < 0:
+            flash('The Price must be positive!', category="error")
+            return render_template("edit_product.html", home_active=True, product=product)
+        try:
+            product_stock = float(product_stock)
+        except ValueError:
+            flash('The Quantity must be a number!', category="error")
+            return render_template("edit_product.html", home_active=True, product=product)
+        if product_stock < 0:
+            flash('The Quantity must be positive!', category="error")
+            return render_template("edit_product.html", home_active=True, product=product)
+        product.name = product_name
+        product.unit_price = product_price
+        product.unit_name = product_unit
+        product.stock = product_stock
+        product.save()
+        return redirect(url_for('views.product_info', product_id=product_id))
+    return render_template("edit_product.html", home_active=True, product=product)
+
+@views.route('/delete_product/<product_id>')
+@login_required
+def delete_product(product_id):
+    product = storage.get(Product, product_id)
+    if product is None:
+        return render_template('404.html'), 404
+    if current_user.id != product.user_id:
+        flash('An error has occurred!', category="error")
+        return redirect('/')
+    product.delete()
+    storage.save()
+    flash('Product has been deleted!', category="success")
+    return redirect('/')
 
 @views.route('/order_info/<order_id>')
 @login_required
@@ -293,5 +369,7 @@ def order_info(order_id):
     order = storage.get(Order, order_id)
     if order is None:
         return render_template('404.html'), 404
+    if current_user.id != order.user_id:
+        flash('An error has occurred!', category="error")
     return render_template("order_info.html", orders_active=True, order=order)
     
