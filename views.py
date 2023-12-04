@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, flash
+from flask import Blueprint, render_template, request, redirect, flash, url_for
 from models import storage
 from models.client import Client
 from models.product import Product
@@ -212,11 +212,7 @@ def create_client():
         if tel_number is None or tel_number == "":
             messages.append(('error', "You must put the Phone number!"))
             return render_template("create_client.html", messages=messages, clients_active=True)
-        arr = storage.all(Client).values()
-        clients = []
-        for obj in arr:
-            if obj.user_id == current_user.id:
-                clients.append(obj)
+        clients = current_user.clients
         for client in clients:
             if tel_number == client.tel_number:
                 messages.append(('error', "Phone number already exist!"))
@@ -253,6 +249,35 @@ def delete_client(client_id):
     storage.save()
     flash('Client has been deleted!', category="success")
     return redirect('/clients')
+
+@views.route('/edit_client/<client_id>', methods=['GET', 'POST'])
+@login_required
+def edit_client(client_id):
+    client = storage.get(Client, client_id)
+    if client is None:
+        return render_template('404.html'), 404
+    if current_user.id != client.user_id:
+        flash('An error has occurred!', category="error")
+        return redirect('/')
+    if request.method == 'POST':
+        name = request.form['client_name']
+        tel_number = request.form['phone_number']
+        if name is None or name == "":
+            flash('You must put a name!', category="error")
+            return render_template("edit_client.html", clients_active=True, client=client)
+        if tel_number is None or tel_number == "":
+            flash('You must put the Phone number!', category="error")
+            return render_template("edit_client.html", clients_active=True, client=client)
+        clients = current_user.clients
+        for obj in clients:
+            if client.id != obj.id and tel_number == obj.tel_number:
+                flash('Phone number already exist!', category="error")
+                return render_template("edit_client.html", clients_active=True, client=client)
+        client.name = name
+        client.tel_number = tel_number
+        client.save()
+        return redirect(url_for('views.client_info', client_id=client_id))
+    return render_template("edit_client.html", clients_active=True, client=client)
 
 @views.route('/product_info/<product_id>')
 @login_required
