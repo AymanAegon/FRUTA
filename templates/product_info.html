@@ -50,7 +50,7 @@
 
                         <dt class="col-sm-4 text-truncate">Total Orders</dt>
                         <dd class="col-sm-8">{{product.orders.__len__()}}</dd>
-                        <a href="#"><p class="text-primary">Show All Orders</p></a>
+                        <a href="{{ url_for('views.product_orders', product_id=product.id) }}"><p class="text-primary">Show All Orders</p></a>
                     </dl>
                 </div>
                 <a href="{{ url_for('views.edit_product', product_id=product.id) }}"><button class="btn btn-primary m-2">Edit</button></a>

@@ -44,7 +44,7 @@
 
                         <dt class="col-sm-4 text-truncate">Total Orders</dt>
                         <dd class="col-sm-8">{{client.orders.__len__()}}</dd>
-                        <!-- <a href="#"><button class="btn btn-outline-primary m-2">Show All Orders</button></a> -->
+                        <a href="{{ url_for('views.client_orders', client_id=client.id) }}"><p class="text-primary">Show All Orders</p></a>
 
                     </dl>
                 </div>
