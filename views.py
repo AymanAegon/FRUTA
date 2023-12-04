@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect
+from flask import Blueprint, render_template, request, redirect, flash
 from models import storage
 from models.client import Client
 from models.product import Product
@@ -238,6 +238,32 @@ def create_client():
         new_client.save()
         return redirect('/clients')
 
+@views.route('/client_info/<client_id>')
+@login_required
+def client_info(client_id):
+    client = storage.get(Client, client_id)
+    if client is None:
+        return render_template('404.html'), 404
+    orders = client.orders
+    spendings = 0
+    for order in orders:
+        spendings += order.total_price
+    return render_template("client_info.html", clients_active=True, client=client, spendings=spendings)
+
+@views.route('/delete_client/<client_id>')
+@login_required
+def delete_client(client_id):
+    client = storage.get(Client, client_id)
+    if client is None:
+        return render_template('404.html'), 404
+    if current_user.id != client.user_id:
+        flash('An error has occurred!', category="error")
+        return redirect('/')
+    client.delete()
+    storage.save()
+    flash('Client has been deleted!', category="success")
+    return redirect('/clients')
+
 @views.route('/product_info/<product_id>')
 @login_required
 def product_info(product_id):
@@ -245,14 +271,6 @@ def product_info(product_id):
     if product is None:
         return render_template('404.html'), 404
     return render_template("product_info.html", home_active=True, product=product)
-
-@views.route('/client_info/<client_id>')
-@login_required
-def client_info(client_id):
-    client = storage.get(Client, client_id)
-    if client is None:
-        return render_template('404.html'), 404
-    return render_template("client_info.html", clients_active=True, client=client)
 
 @views.route('/order_info/<order_id>')
 @login_required

@@ -22,6 +22,21 @@
 
     <!-- Content Start -->
     <div class="content">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for catagory, message in messages %}
+                    {% if catagory == 'error' %}
+                    <div class="p-2 mb-2 bg-warning text-dark">
+                        {{ message }}
+                    </div>
+                    {% else %}
+                    <div class="p-2 mb-2 bg-success text-white">
+                        {{ message }}
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
         <!-- Navbar Start -->
         {% include 'navbar.html' %}
         <!-- Navbar End -->

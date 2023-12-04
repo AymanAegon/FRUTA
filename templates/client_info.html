@@ -27,12 +27,29 @@
         <!-- info Start -->
         <div class="container-fluid pt-4 px-4">
             <div class="bg-light rounded p-4">
-                <h5 class="mb-4">Fill out the form:</h5>
-                <div class="bg-light container-fluid p-4">
-                    client
+                <h5 class="mb-4">Client: {{client.name}}, {{client.tel_number}}</h5>
+                <div class="bg-light rounded h-100 p-4">
+                    <dl class="row mb-0">
+                        <dt class="col-sm-4">Name</dt>
+                        <dd class="col-sm-8">{{client.name}}</dd>
+
+                        <dt class="col-sm-4">Phone Number</dt>
+                        <dd class="col-sm-8">{{client.tel_number}}</dd>
+
+                        <dt class="col-sm-4">Created at</dt>
+                        <dd class="col-sm-8">{{client.created_at}}</dd>
+
+                        <dt class="col-sm-4 text-truncate">Total Spendings</dt>
+                        <dd class="col-sm-8">{{spendings}} $</dd>
+
+                        <dt class="col-sm-4 text-truncate">Total Orders</dt>
+                        <dd class="col-sm-8">{{client.orders.__len__()}}</dd>
+                        <!-- <a href="#"><button class="btn btn-outline-primary m-2">Show All Orders</button></a> -->
+
+                    </dl>
                 </div>
                 <a href="#"><button class="btn btn-primary">Edit</button></a>
-                <a href="#"><button class="btn btn-primary">Delete</button></a>
+                <a href="{{ url_for('views.delete_client', client_id=client.id) }}"><button class="btn btn-primary">Delete</button></a>
             </div>
         </div>
         <!-- info End -->
