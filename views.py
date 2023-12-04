@@ -3,6 +3,7 @@ from models import storage
 from models.client import Client
 from models.product import Product
 from models.order import Order
+from models.user import User
 from flask_login import login_user, login_required, logout_user, current_user
 from models import storage
 
@@ -14,24 +15,13 @@ def products():
     # statinfo data start
     # geting the user orders
     revenue = 0
-    arr = storage.all(Order).values()
-    orders = []
-    for order in arr:
-        if order.user_id == current_user.id:
-            revenue += order.total_price
-            orders.append(order)
+    orders = current_user.orders
+    for order in orders:
+        revenue += order.total_price
     # geting the user products
-    arr = storage.all(Product).values()
-    products = []
-    for obj in arr:
-        if obj.user_id == current_user.id:
-            products.append(obj)
+    products = current_user.products
     # geting the user clients
-    arr = storage.all(Client).values()
-    clients = []
-    for obj in arr:
-        if obj.user_id == current_user.id:
-            clients.append(obj)
+    clients = current_user.clients
     # creating the statinfo data list to display in the dashboard
     statsinfo = [len(products), len(orders), revenue, len(clients)]
     # statinfo data end
