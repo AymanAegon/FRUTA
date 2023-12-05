@@ -10,6 +10,11 @@ from models import storage
 
 views = Blueprint('views', __name__)
 
+@views.route('/home')
+@login_required
+def landing_page():
+    return render_template("esigned-1.0.0/index.html")
+
 @views.route('/')
 @login_required
 def products():
