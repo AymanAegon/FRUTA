@@ -46,7 +46,7 @@
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label">Client</label>
                         <div class="col-sm-10">
-                            <select class="form-select mb-3" aria-label="Default select example" name="client_info">
+                            <select class="form-select mb-3" aria-label="Default select example" name="client_info" required>
                                 <option selected>Select Client</option>
                                 {% for client in clients %}
                                     <option value="{{client.id}}">{{client.name}}, {{client.tel_number}}</option>
@@ -57,7 +57,7 @@
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label">Product</label>
                         <div class="col-sm-10">
-                            <select class="form-select mb-3" aria-label="Default select example" name="product">
+                            <select class="form-select mb-3" aria-label="Default select example" name="product" required>
                                 <option selected>Select Product</option>
                                 {% for product in products %}
                                     <option value="{{product.id}}">{{product.name}}</option>
@@ -68,7 +68,7 @@
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label">Quantity</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="quantity">
+                            <input type="text" class="form-control" name="quantity" required>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Create</button>

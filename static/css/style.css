@@ -281,6 +281,19 @@
 .data-table tbody tr {
     cursor: pointer;
 }
+.edit-name-form {
+    display: inline;
+}
+.edit-name {
+    display: none;
+}
+.edit-name-show {
+    display: inline;
+}
+.edit-name-input {
+    width: 30%;
+    display: inline;
+}
 
 /* pop confirm form */
 .cd-popup {

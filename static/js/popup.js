@@ -18,4 +18,13 @@ jQuery(document).ready(function($){
     		$('.cd-popup').removeClass('is-visible');
 	    }
     });
+	//open and close the edit user's name field
+	$('.show-edit-form').on('click', function(event){
+		event.preventDefault();
+		if ($('.edit-name').hasClass('edit-name-show')) {
+			$('.edit-name').removeClass('edit-name-show');
+		} else {
+			$('.edit-name').addClass('edit-name-show');
+		}
+	});
 });

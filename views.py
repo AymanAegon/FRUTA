@@ -5,6 +5,7 @@ from models.product import Product
 from models.order import Order
 from models.user import User
 from flask_login import login_user, login_required, logout_user, current_user
+from werkzeug.security import generate_password_hash, check_password_hash
 from models import storage
 
 views = Blueprint('views', __name__)
@@ -230,7 +231,7 @@ def create_client():
         new_client.save()
         return redirect('/clients')
 
-@views.route('/client_info/<client_id>')
+@views.route('/client/<client_id>')
 @login_required
 def client_info(client_id):
     client = storage.get(Client, client_id)
@@ -244,7 +245,7 @@ def client_info(client_id):
         spendings += order.total_price
     return render_template("client_info.html", clients_active=True, client=client, spendings=spendings)
 
-@views.route('/client_orders/<client_id>')
+@views.route('/client/<client_id>/orders')
 @login_required
 def client_orders(client_id):
     client = storage.get(Client, client_id)
@@ -322,7 +323,7 @@ def product_info(product_id):
         revenue += order.total_price
     return render_template("product_info.html", products_active=True, product=product, revenue=revenue)
 
-@views.route('/product_orders/<product_id>')
+@views.route('/product/<product_id>/orders')
 @login_required
 def product_orders(product_id):
     product = storage.get(Product, product_id)
@@ -416,4 +417,43 @@ def order_info(order_id):
     if current_user.id != order.user_id:
         flash('An error has occurred!', category="error")
     return render_template("order_info.html", orders_active=True, order=order)
+
+@views.route('/profile', methods=['GET', 'POST'])
+@login_required
+def profile():
+    if request.method == 'POST':
+        name = request.form['name']
+        if name is None or name == "":
+            flash('Name can not be empty!', category="error")
+            return render_template("change_password.html", user=current_user)
+        current_user.name = name
+        current_user.save()
+        flash('Your name has been changed!', category="success")
+    return render_template("profile.html", user=current_user)
+
+@views.route('/profile/change_password', methods=['GET', 'POST'])
+@login_required
+def change_password():
+    if request.method == 'POST':
+        old_pwd = request.form['old_pwd']
+        new_pwd1 = request.form['new_pwd1']
+        new_pwd2 = request.form['new_pwd2']
+        if old_pwd is None or old_pwd == "":
+            flash('Field can not be empty!', category="error")
+        elif new_pwd1 is None or new_pwd1 == "":
+            flash('Field can not be empty!', category="error")
+        elif new_pwd2 is None or new_pwd2 == "":
+            flash('Field can not be empty!', category="error")
+        elif check_password_hash(current_user.password, old_pwd) is False:
+            flash('Incorrect password, Try again!', category="error")
+        elif len(new_pwd1) < 8:
+            flash('Password must be greater than 8 characters!', category="error")
+        elif new_pwd1 != new_pwd2:
+            flash('Passwords don\'t match', category="error")
+        else:
+            current_user.password = generate_password_hash(new_pwd1, method="scrypt")
+            current_user.save()
+            flash('Password changed successfully!', category="success")
+            return redirect(url_for('views.profile'))
+    return render_template("change_password.html", user=current_user)
     
