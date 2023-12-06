@@ -23,7 +23,7 @@
 
   <!-- fonts style -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Poppins:400,700&display=swap" rel="stylesheet">
-  <!-- Custom styles for this template -->=
+  <!-- Custom styles for this template -->
   <link href="{{ url_for('static', filename='css/style2.css') }}" rel="stylesheet">
   <!-- responsive style -->
   <link href="{{ url_for('static', filename='css/responsive.css') }}" rel="stylesheet">
@@ -35,7 +35,7 @@
     <header class="header_section">
       <div class="container-fluid">
         <nav class="navbar navbar-expand-lg custom_nav-container pt-3">
-          <a class="navbar-brand" href="index.html">
+          <a class="navbar-brand" href="{{ url_for('views.landing_page') }}">
             <span>
               FRUTA
             </span>
@@ -43,9 +43,6 @@
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-
-          
-
         </nav>
       </div>
     </header>
@@ -54,11 +51,11 @@
     <section class=" slider_section position-relative">
       <div class="container">
         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-          <ol class="carousel-indicators">
+          <!-- <ol class="carousel-indicators">
             <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
             <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
             <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-          </ol>
+          </ol> -->
           <div class="carousel-inner">
             <div class="carousel-item active">
               <div class="row">
@@ -67,17 +64,16 @@
                     <div>
                       <h2>
                         welcome to
-
                       </h2>
                       <h1>
                         Fruta Inventory
                       </h1>
                       <p>
-                        Trace your Sales,Product and  Client All in one place with our Green solution to make your journey
+                        Trace your Sales, Product and Client All in one place with our Green solution to make your journey
                         leasier
                       </p>
                       <div class="">
-                        <a href="">
+                        <a href="{{ url_for('auth.signup') }}">
                           Sign Up
                         </a>
                       </div>
@@ -106,8 +102,7 @@
       <div class="row">
         <div class="col-md-5">
           <div class="img-box">
-            <img src="images/fruta.png" alt="">
-            <img src="{{ url_for('static', filename='img/user.jpg') }}" alt="">
+            <img src="{{ url_for('static', filename='img/fruta.png') }}" alt="">
           </div>
         </div>
         <div class="col-md-7">
@@ -122,11 +117,11 @@
               streamlining order management, optimizing inventory tracking, and enhancing client communication.
               Experience newfound efficiency and organization as our user-friendly tool becomes your go-to solution for effortlessly managing orders, purchases, and client relationships. Join a thriving community of sellers who have transformed their businesses, and revolutionize your fruit business journey today!
             </p>
-            <div>
+            <!-- <div>
               <a href="">
                 Read More
               </a>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -145,20 +140,15 @@
         </h2>
         <p>
           In the heart of our agriculture-centric country, where a significant portion of our community thrives in the fruit sector, we recognized the challenges faced by numerous small entrepreneurs with limited resources. Our vision for creating this web application stemmed from the understanding that their livelihoods and the national economy depend on this field. With a commitment to empowering these individuals, we developed a tool to optimize their resources and energies. By introducing this application, we aim to open doors of opportunity for small entrepreneurs, shedding light on a simpler and more efficient way to manage their fruit businesses, ultimately making their lives easier
-        Be part of our 300 members Commnity and Benefit from our services!!
+        Be part of our Commnity and Benefit from our services!!
         <b>JOIN US NOW</b>
         </p>
       </div>
-      <div class="work_container layout_padding2">
-
-
-      <div class="box b-2">
-        <img src="images/sign up.png" alt="">
-
-      </div>
-    </div>
-
-
+      <!-- <div class="work_container layout_padding2">
+        <div class="box b-2">
+          <img src="images/sign up.png" alt="">
+        </div>
+      </div> -->
     </div>
   </section>
 
@@ -177,7 +167,7 @@
           <div class="item">
             <div class="box">
               <div class="img-box">
-                <img src="images/c-1.png" alt="">
+                <img src="{{ url_for('static', filename='img/c-1.png') }}" alt="">
               </div>
               <div class="detail-box">
                 <h5>
@@ -186,7 +176,7 @@
                     Dipiscing elit
                   </span>
                 </h5>
-                <img src="images/quote.png" alt="">
+                <img src="{{ url_for('static', filename='img/quote.png') }}" alt="">
                 <p>
                   It simplified my fruit business, offering a seamless platform for order management and client communication – a true game-changer for sellers in the market
                 </p>
@@ -197,6 +187,7 @@
             <div class="box">
               <div class="img-box">
                 <img src="images/c-2.png" alt="">
+                <img src="{{ url_for('static', filename='img/c-2.png') }}" alt="">
               </div>
               <div class="detail-box">
                 <h5>
@@ -205,7 +196,7 @@
                     Dipiscing elit
                   </span>
                 </h5>
-                <img src="images/quote.png" alt="">
+                <img src="{{ url_for('static', filename='img/quote.png') }}" alt="">
                 <p>
                   FRUTA has revolutionized my fruit-selling business, making order management a breeze and helping me stay connected with my clients effortlessly
                 </p>
@@ -216,6 +207,7 @@
             <div class="box">
               <div class="img-box">
                 <img src="images/c-3.png" alt="">
+                <img src="{{ url_for('static', filename='img/c-3.png') }}" alt="">
               </div>
               <div class="detail-box">
                 <h5>
@@ -224,7 +216,7 @@
                     Dipiscing elit
                   </span>
                 </h5>
-                <img src="images/quote.png" alt="">
+                <img src="{{ url_for('static', filename='img/quote.png') }}" alt="">
                 <p>
                   Using FRUTA has significantly boosted my efficiency in tracking inventory, making it an invaluable tool for any small fruit seller looking to streamline their operations
                 </p>
@@ -296,9 +288,7 @@
   <!-- footer section -->
   <section class="container-fluid footer_section">
     <p>
-      &copy; 2020 All Rights Reserved By
-      <a href="https://html.design/">Free Html Templates</a>
-      Distrubuted By <a href="https://themewagon.com">ThemeWagon</a>
+      &copy; <a href="{{ url_for('views.landing_page') }}">FRUTA</a>, All Right Reserved.
     </p>
   </section>
   <!-- footer section -->

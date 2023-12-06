@@ -72,7 +72,7 @@ body {
 .hero_area {
   height: 100vh;
   background-color: #b5caee;
-  background-image: url(../images/hero-bg.jpg);
+  background-image: url(../img/hero-bg.jpg);
   background-size: cover;
 }
 
@@ -145,7 +145,7 @@ a:focus {
 }
 
 .custom_nav-container .nav_search-btn {
-  background-image: url(../images/search-icon.png);
+  background-image: url(../img/search-icon.png);
   background-size: 22px;
   background-repeat: no-repeat;
   background-position-y: 7px;
@@ -180,7 +180,7 @@ a:focus {
 }
 
 .custom_nav-container .navbar-toggler .navbar-toggler-icon {
-  background-image: url(../images/menu.png);
+  background-image: url(../img/menu.png);
   background-size: 55px;
 }
 
@@ -308,15 +308,15 @@ a:focus {
 }
 
 .do_section .do_container .arrow-start::before {
-  background-image: url(../images/arrow-start.png);
+  background-image: url(../img/arrow-start.png);
 }
 
 .do_section .do_container .arrow-middle::before {
-  background-image: url(../images/arrow-middle.png);
+  background-image: url(../img/arrow-middle.png);
 }
 
 .do_section .do_container .arrow-end::before {
-  background-image: url(../images/arrow-end.png);
+  background-image: url(../img/arrow-end.png);
 }
 
 .who_section .row {
@@ -483,7 +483,7 @@ a:focus {
 }
 
 .client_section .owl-carousel .owl-nav .owl-prev {
-  background-image: url(../images/prev.png);
+  background-image: url(../img/prev.png);
   left: 50%;
   -webkit-transform: translateX(-102%);
           transform: translateX(-102%);
@@ -491,7 +491,7 @@ a:focus {
 
 .client_section .owl-carousel .owl-nav .owl-next {
   right: 50%;
-  background-image: url(../images/next.png);
+  background-image: url(../img/next.png);
   -webkit-transform: translateX(102%);
           transform: translateX(102%);
 }
@@ -507,7 +507,7 @@ a:focus {
 }
 
 .target_section {
-  background-image: url(../images/target-bg.jpg);
+  background-image: url(../img/target-bg.jpg);
   background-size: cover;
   color: #ffffff;
   text-align: center;
