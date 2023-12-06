@@ -2,7 +2,7 @@
 ## Elevate your small fruit business with our innovative web application
 
 ### Link : http://fruta.therealayman.tech/home
-Fruta is a cloud-enabled, mobile-ready, offline-storage compatible,
+Fruta is a cloud-enabled, mobile-ready, online-storage compatible,
 inventory organizer.
 
 - Add Products to your inventory
