@@ -10,18 +10,21 @@ from models import storage
 
 views = Blueprint('views', __name__)
 
+# the route for the home page
 @views.route('/home')
 def landing_page():
     return render_template("index.html")
 
+# the route for the products page
 @views.route('/')
 @login_required
 def products():
-    # statinfo data start
-    # geting the user orders
+    # stats data to display start
     revenue = 0
+    # geting the user orders
     orders = current_user.orders
     for order in orders:
+        # calculating the total revenue
         revenue += order.total_price
     # geting the user products
     products = current_user.products
@@ -32,63 +35,45 @@ def products():
     # statinfo data end
     return render_template("products.html", statsinfo=statsinfo, products_active=True, products=products)
 
+# the route for the clients page
 @views.route('/clients')
 @login_required
 def clients():
-    # statinfo data start
-    # geting the user orders
+    # stats data start
     revenue = 0
-    arr = storage.all(Order).values()
-    orders = []
-    for order in arr:
-        if order.user_id == current_user.id:
-            revenue += order.total_price
-            orders.append(order)
+    # geting the user orders
+    orders = current_user.orders
+    for order in orders:
+        # calculating the total revenue
+        revenue += order.total_price
     # geting the user products
-    arr = storage.all(Product).values()
-    products = []
-    for obj in arr:
-        if obj.user_id == current_user.id:
-            products.append(obj)
+    products = current_user.products
     # geting the user clients
-    arr = storage.all(Client).values()
-    clients = []
-    for obj in arr:
-        if obj.user_id == current_user.id:
-            clients.append(obj)
+    clients = current_user.clients
     # creating the statinfo data list to display in the dashboard
     statsinfo = [len(products), len(orders), revenue, len(clients)]
     # statinfo data end
     return render_template("clients.html", statsinfo=statsinfo, clients_active=True, clients=clients)
 
+# the route for the orders page
 @views.route('/orders')
 @login_required
 def orders():
-    # statinfo data start
-    # geting the user orders
+    # stats data start
     revenue = 0
-    arr = storage.all(Order).values()
-    orders = []
-    for order in arr:
-        if order.user_id == current_user.id:
-            revenue += order.total_price
-            orders.append(order)
+    # geting the user orders
+    orders = current_user.orders
+    for order in orders:
+        # calculating the total revenue
+        revenue += order.total_price
     # geting the user products
-    arr = storage.all(Product).values()
-    products = []
-    for obj in arr:
-        if obj.user_id == current_user.id:
-            products.append(obj)
+    products = current_user.products
     # geting the user clients
-    arr = storage.all(Client).values()
-    clients = []
-    for obj in arr:
-        if obj.user_id == current_user.id:
-            clients.append(obj)
+    clients = current_user.clients
     # creating the statinfo data list to display in the dashboard
     statsinfo = [len(products), len(orders), revenue, len(clients)]
-    # statinfo data end
-    results = []
+    # stats data end
+    ordersList = []
     obj = {}
     for order in orders:
         revenue += order.total_price
@@ -99,14 +84,16 @@ def orders():
         obj["quantity"] = order.quantity
         obj["total_price"] = order.total_price
         obj["created_at"] = order.created_at
-        results.append(obj.copy())
-    return render_template("orders.html", statsinfo=statsinfo, orders_active=True, orders=results)
+        ordersList.append(obj.copy()) # copy to prevent overwriting the object
+    return render_template("orders.html", statsinfo=statsinfo, orders_active=True, orders=ordersList)
 
+# the route for the blank page
 @views.route('/blank')
 @login_required
 def blank():
     return render_template("blank.html")
 
+# the route for creating products
 @views.route('/create_product', methods=['GET', 'POST'])
 @login_required
 def create_product():
