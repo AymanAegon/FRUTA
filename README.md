@@ -34,7 +34,7 @@ Fruta uses a number of open source projects to work properly:
 And of course Fruta itself is open source with a [public repository](https://github.com/AymanAegon/FRUTA)
  on GitHub.
 
-## Installation
+## Installation & Usage
 
 Just clone it bro :)
 
