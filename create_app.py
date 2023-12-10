@@ -4,6 +4,12 @@ from models.user import User
 from models import storage
 
 def create_app():
+    """
+    a function to create the flask app
+
+    Returns:
+        flsak app
+    """
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'hghghghg'
 

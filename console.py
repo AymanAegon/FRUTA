@@ -13,7 +13,7 @@ class HBNBCommand(cmd.Cmd):
     """ Command interpreter class."""
 
     prompt = ">> "
-    cls = {"BaseModel", "Product", "Client", "Order", "Box"}
+    cls = {"BaseModel", "Product", "Client", "Order"}
 
     def do_quit(self, arg):
         """Command quit to exit the program."""
