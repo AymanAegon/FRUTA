@@ -32,24 +32,17 @@ class DBStorage:
 
         self.__engine = create_engine(
             f"mysql+mysqldb://{fruta_user}:{fruta_pwd}@{fruta_host}/{fruta_db}",
-            pool_pre_ping=True, pool_size=5, max_overflow=2
+            pool_pre_ping=True, pool_size=10,pool_timeout=60,pool_recycle=3600
         )
 
         if fruta_env == "test":
             Base.metadata.drop_all(self.__engine)
 
-    def reload(self):
-        """ reload method """
-        Base.metadata.create_all(self.__engine)
-        Session = scoped_session(
-            sessionmaker(bind=self.__engine, expire_on_commit=False)
-        )
-        self.__session = Session()
 
     def all(self, cls=None):
         """
         query all classes or specific one"""
-        allClasses = [User, Product, Client, Order]
+        allClasses = [User, Product, Client, Order,Fee,Boxe_in]
         result = {}
         if cls is not None:
             for obj in self.__session.query(cls).all():
