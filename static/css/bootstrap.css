@@ -10035,4 +10035,7 @@ a.text-dark:hover, a.text-dark:focus {
     border-color: #dee2e6;
   }
 }
+.link-with-hover:hover {
+  background-color: blue; /* Change this to the desired color */
+}
 /*# sourceMappingURL=bootstrap.css.map */

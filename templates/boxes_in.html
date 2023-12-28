@@ -34,10 +34,10 @@
         <div class="container-fluid pt-4 px-4">
             <div class="bg-light text-center rounded p-4">
                 <div class="d-flex align-items-center justify-content-between mb-4">
-                    <h6 class="mb-0">Orders</h6>
+                    <h6 class="mb-0">Boxes Back</h6>
                     <!-- <a href="">Show All</a> -->
-                    <a href="{{ url_for('views.create_order') }}"><button type="button" class="btn btn-primary m-2 add-btn">
-                        <i class="bi bi-plus-square-fill me-2"></i>New Order
+                    <a href="{{ url_for('views.return_boxes') }}"><button type="button" class="btn btn-primary m-2 add-btn">
+                        <i class="bi bi-plus-square-fill me-2"></i>Return Boxes
                     </button></a>
                 </div>
                 <div class="table-responsive">
@@ -46,23 +46,17 @@
                             <tr class="text-dark">
                                 <!-- <th scope="col"><input class="form-check-input" type="checkbox"></th> -->
                                 <th scope="col">Client Info</th>
-                                <th scope="col">Product</th>
-                                <th scope="col">Quantity</th>
-                                <th scope="col">Boxes_number</th>
-                                <th scope="col">Total price</th>
+                                <th scope="col">Boxes returned</th>
                                 <th scope="col">Date</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for order in orders %}
-                            <tr ><!-- onclick='location.href=`{{ url_for("views.order_info", order_id=order.id) }}`'-->
+                            {% for boxe in boxes %}
+                            <tr>
                                 <!-- <td><input class="form-check-input" type="checkbox"></td> -->
-                                <td title="{{order.client_name}}, {{order.client_tel}}">{{order.client_name}}</td>
-                                <td>{{order.product}}</td>
-                                <td>{{order.quantity}}</td>
-                                <td>{{order.boxes_number}}</td>
-                                <td>{{order.total_price}} </td>
-                                <td>{{order.created_at}}</td>
+                                <td title="{{boxe.client_name}}, {{boxe.client_tel}}">{{boxe.client_name}}</td>
+                                <td>{{boxe.boxes_number}}</td>
+                                <td>{{boxe.created_at}}</td>
                                 <!-- <td><a class="btn btn-sm btn-primary" href="">Detail</a></td> -->
                             </tr>
                             {% endfor %}

@@ -7,7 +7,7 @@ from models import storage
 from models.client import Client
 from models.order import Order
 from models.product import Product
-from models.boxe import Boxe
+from models.boxe_in import Boxe_in
 
 
 

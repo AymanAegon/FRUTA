@@ -10,7 +10,9 @@ import models
 from models.order import Order
 from models.product import Product
 from models.client import Client
+from models.boxe_in import Boxe_in
 from flask_login import UserMixin
+from models.fee import Fee
 
 if models.StorageType == 'db':
     User_mixin = UserMixin
@@ -31,11 +33,13 @@ class User(BaseModel, Base):
         products = relationship("Product", cascade="all,delete", backref="user")
         clients = relationship("Client", cascade="all,delete", backref="user")
         orders = relationship("Order", cascade="all,delete", backref="user")
-
+        boxes_in = relationship("Boxe_in", cascade="all,delete", backref="user")
+        fees = relationship("Fee", cascade="all,delete", backref="user")
     else:
         name = ''
         email = ''
         password = ''
+        boxes_in = ''
 
     def __init__(self, *args, **kwargs):
         """initializes state"""
@@ -73,6 +77,17 @@ class User(BaseModel, Base):
                 if order.user_id == self.id:
                     order_list.append(order)
             return order_list
+
+    if models.StorageType != "db":
+        @property
+        def boxes(self):
+            """getter for list of boxe_in instances related to the user"""
+            boxe_list = []
+            all_boxes = models.storage.all(Boxe_in)
+            for boxe_in in all_boxes.values():
+                if boxe_in.user_id == self.id:
+                    boxe_list.append(boxe_in)
+            return boxe_list
 
     __hash__ = object.__hash__
 

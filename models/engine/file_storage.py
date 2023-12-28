@@ -6,12 +6,14 @@ from models.client import Client
 from models.product import Product
 from models.order import Order
 from models.user import User
+from models.fee import Fee
+from models.boxe_in import Boxe_in
 
 
 
 
 classes = {"User": User, "Client": Client, "BaseModel": BaseModel, "Order": Order,
-           "Product": Product}
+           "Product": Product,"Fee": Fee, "Box_in":Boxe_in}
 
 class FileStorage:
     """serializes instances to a JSON file & deserializes back to instances"""

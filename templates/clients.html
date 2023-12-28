@@ -64,6 +64,7 @@
                                 <th scope="col">Phone number</th>
                                 <th scope="col">Client since</th>
                                 <th scope="col">Total orders</th>
+                                <th scope="col">Boxes to return</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -74,6 +75,7 @@
                                 <td>{{client.tel_number}}</td>
                                 <td>{{client.created_at}}</td>
                                 <td>{{client.orders.__len__()}}</td>
+                                <td>{{client.boxes_number}}</td>
                                 <!-- <td><a class="btn btn-sm btn-primary" href="{{ url_for('views.blank') }}">Detail</a></td> -->
                             </tr>
                             {% endfor %}

@@ -20,11 +20,13 @@ class Product(BaseModel, Base):
         name = Column(String(128), nullable=False)
         unit_price = Column(Float, nullable=False)
         unit_name = Column(String(128), nullable=True, default="unit")
+        primary_stock = Column(Float, nullable=False, default=0)
         stock = Column(String(128), nullable=False, default=0)
         user_id = Column(String(60), ForeignKey("users.id"), nullable=False)
 
         # Add ForeignKey constraint to the orders relationship
         orders = relationship("Order", cascade="all,delete", backref="product")
+        fees = relationship("Fee", backref="products")
        
     else:
         name = ''

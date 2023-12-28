@@ -8,7 +8,7 @@ from os import getenv
 from models.base_model import BaseModel, Base
 import models
 from models.order import Order
-
+from models.boxe_in import Boxe_in
 
 
 
@@ -21,15 +21,18 @@ class Client(BaseModel, Base):
         name = Column(String(128), nullable=False)
         tel_number = Column(String(60), nullable=True)
         user_id = Column(String(60), ForeignKey("users.id"), nullable=False)
+        boxes_number = Column(Integer, default=0, nullable=False)
 
 
         # Add ForeignKey constraint to the orders relationship
         orders = relationship("Order", cascade="all,delete", backref="client")
+        boxes = relationship("Boxe_in", backref="clients")
 
     else:
         name = ''
         tel_number = ''
         user_id = ''
+        boxes_number = ''
 
 
     def __init__(self, *args, **kwargs):

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<title>Create New Order - FRUTA</title>
+<title>Return Boxes - FRUTA</title>
 {% endblock %}
 
 {% block body %}
@@ -55,29 +55,12 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label">Product</label>
-                        <div class="col-sm-10">
-                            <select class="form-select mb-3" aria-label="Default select example" name="product" required>
-                                <option selected>Select Product</option>
-                                {% for product in products %}
-                                    <option value="{{product.id}}">{{product.name}}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label">Quantity</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" name="quantity" required>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
                         <label class="col-sm-2 col-form-label">Boxes_number</label>
                         <div class="col-sm-10">
                             <input type="number" class="form-control" name="boxes_number" required>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Create</button>
+                    <button type="submit" class="btn btn-primary">Done</button>
                 </form>
             </div>
         </div>

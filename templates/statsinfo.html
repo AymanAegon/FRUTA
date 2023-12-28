@@ -23,7 +23,7 @@
                 <i class="bi bi-graph-up fa-3x text-primary"></i>
                 <div class="ms-3">
                     <p class="mb-2">Total Revenue</p>
-                    <h6 class="mb-0">{{statsinfo[2]}} $</h6>
+                    <h6 class="mb-0">{{statsinfo[2]}} </h6>
                 </div>
             </div>
         </div>
@@ -36,5 +36,21 @@
                 </div>
             </div>
         </div>
+
+        
+        <div class="col-sm-6 col-xl-3">
+            <a href="{{ url_for('views.boxes_client') }}" class="link-with-hover">
+                <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                    <i class="bi bi-box fa-3x text-primary"></i>
+                    <div class="ms-3">
+                        <p class="mb-2"> Total Boxes_to_return</p>
+                        <h6 class="mb-0">{{statsinfo[4]}}</h6>
+                    </div>
+                </div>
+            </a>
+        </div>
+        
+
+        
     </div>
 </div>

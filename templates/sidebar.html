@@ -3,7 +3,9 @@
         <a href="{{ url_for('views.products') }}" class="navbar-brand mx-4 mb-3">
             <h3 class="text-primary">
                 <!-- <i class="fa fa-hashtag me-2"></i> -->
+                <img src="{{ url_for('static', filename='img/fruta-icon.png') }}"  width="75" height="75" alt="Fruta Icon" class="icon-img">
                 FRUTA
+                
             </h3>
         </a>
         <div class="navbar-nav w-100">
@@ -11,6 +13,18 @@
 
             <a href="{{ url_for('views.orders') }}" class="nav-item nav-link {% if orders_active %}active{% endif %}"><i class="bi bi-cart-check-fill me-2"></i>Orders</a>
             <a href="{{ url_for('views.clients') }}" class="nav-item nav-link {% if clients_active %}active{% endif %}"><i class="bi bi-people-fill me-2"></i>Clients</a>
+            <a href="{{ url_for('views.boxes_in') }}" class="nav-item nav-link {% if boxes_active %}active{% endif %}"><i class="bi bi-box"></i>   Boxes</a>
+            <a href="{{ url_for('views.fees') }}" class="nav-item nav-link {% if fees_active %}active{% endif %}">
+            
+                    <!-- Paste the SVG code here with width and height attributes -->
+
+            <a href="{{ url_for('views.fees') }}" class="nav-item nav-link {% if fees_active %}active{% endif %}" >             <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-coin" viewBox="0 0 16 16">
+                <path d="M5.5 9.511c.076.954.83 1.697 2.182 1.785V12h.6v-.709c1.4-.098 2.218-.846 2.218-1.932 0-.987-.626-1.496-1.745-1.76l-.473-.112V5.57c.6.068.982.396 1.074.85h1.052c-.076-.919-.864-1.638-2.126-1.716V4h-.6v.719c-1.195.117-2.01.836-2.01 1.853 0 .9.606 1.472 1.613 1.707l.397.098v2.034c-.615-.093-1.022-.43-1.114-.9H5.5zm2.177-2.166c-.59-.137-.91-.416-.91-.836 0-.47.345-.822.915-.925v1.76h-.005zm.692 1.193c.717.166 1.048.435 1.048.91 0 .542-.412.914-1.135.982V8.518z"/>
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                <path d="M8 13.5a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11m0 .5A6 6 0 1 0 8 2a6 6 0 0 0 0 12"/>
+                
+            </svg> &nbsp;Fees </a>                
+
         </div>
     </nav>
 </div>

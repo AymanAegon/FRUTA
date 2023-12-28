@@ -4,6 +4,8 @@ from models.user import User
 from models.client import Client
 from models.product import Product
 from models.order import Order
+from models.fee import Fee
+from models.boxe_in import Boxe_in
 from models.base_model import BaseModel ,Base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
@@ -15,7 +17,7 @@ class DBStorage:
     """Class Docs"""
 
     classes = {"User": User, "Order": Order, "Client": Client,
-           "Product": Product}
+           "Product": Product, "Fee": Fee, "Box_in":Boxe_in}
 
     __engine = None
     __session = None
@@ -101,3 +103,12 @@ class DBStorage:
         else:
             count = len(self.all())
         return count
+    @property
+    def engine(self):
+        """Getter for __engine"""
+        return self.__engine
+
+    @property
+    def session(self):
+        """Getter for __session"""
+        return self.__session

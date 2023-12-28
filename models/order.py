@@ -24,6 +24,7 @@ class Order(BaseModel, Base):
         client_id = Column(String(60), ForeignKey("clients.id"), nullable=False)
         product_id = Column(String(60), ForeignKey("products.id"), nullable=False)
         user_id = Column(String(60), ForeignKey("users.id"), nullable=False)
+        boxes_number = Column(Integer, default=0, nullable=False)
 
 
     else:
@@ -32,4 +33,5 @@ class Order(BaseModel, Base):
         quantity = 0
         total_price = 0
         user_id = ''
+        boxes_number = ''
 
