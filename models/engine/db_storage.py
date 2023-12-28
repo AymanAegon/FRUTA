@@ -32,7 +32,7 @@ class DBStorage:
 
         self.__engine = create_engine(
             f"mysql+mysqldb://{fruta_user}:{fruta_pwd}@{fruta_host}/{fruta_db}",
-            pool_pre_ping=True,
+            pool_pre_ping=True, pool_size=5, max_overflow=2
         )
 
         if fruta_env == "test":
